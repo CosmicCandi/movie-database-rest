@@ -2,6 +2,8 @@ package com.libertymutual.goforcode.ironyardmoviedatabase.controllers;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,12 +21,14 @@ import com.libertymutual.goforcode.ironyardmoviedatabase.services.AwardRepositor
 import com.libertymutual.goforcode.ironyardmoviedatabase.services.MovieRepository;
  
 @RestController
+@EnableJpaRepositories(basePackages = "com.libertymutual.goforcode.ironyardmoviedatabase.services")
 @RequestMapping("/actors")
 public class ActorsController {
 
 	private ActorRepository actorRepo;
 	private AwardRepository awardRepo;
 	private MovieRepository movieRepo;
+	private Actor actor;
 	
 	public ActorsController (ActorRepository actorRepo, AwardRepository awardRepo, MovieRepository movieRepo) {
 		this.actorRepo = actorRepo;
@@ -64,15 +68,14 @@ public class ActorsController {
 		 actorAward.setActor(actor);
 		 awardRepo.save(actorAward);
 		 return actorAward;
+	}	
+	
+	@Query
+	//@GetMapping ("?firstName={firstName}")
+	public Actor findByFirstnameStartingWith (String firstName) {
+		if (!firstName.equals("") || !firstName.equals(null)) {
+			actor = actorRepo.findByFirstNameStartingWith(firstName);
+		}
+		return actor;
 	}
-	
-//	@PostMapping ("{actorId}/movies")
-//	public Movie createMovieForActor(@RequestBody Movie movie, @PathVariable Long actorId) {
-//		Actor actor = actorRepo.findOne(actorId);
-//		movie.setActors(actor);
-//		movieRepo.save(movie);
-//		return movie;
-//	}
-	
-	
 }

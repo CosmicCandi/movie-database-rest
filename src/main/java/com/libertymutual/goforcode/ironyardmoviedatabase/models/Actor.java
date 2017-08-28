@@ -9,14 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
+@NamedQuery (name="findByFistNameStartingWith", query= "select u from Actor u where u.firstName = ?1")
 public class Actor {
 	//Instance Variables
 	@Id
@@ -91,6 +92,5 @@ public class Actor {
 	
 	public void starIn(Movie movie) {
 		movies.add(movie);
-		
-	}
+	}	
 }

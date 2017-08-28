@@ -7,5 +7,7 @@ import com.libertymutual.goforcode.ironyardmoviedatabase.models.Actor;
 
 @Repository
 public interface ActorRepository extends JpaRepository<Actor, Long> {
-
+	
+	Actor findByFirstNameStartingWith (String firstName);
+	
 }
