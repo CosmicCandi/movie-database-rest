@@ -37,8 +37,14 @@ public class ActorsController {
 	}
 	
 	@GetMapping ("") 
-	public List<Actor> index() {
-		return actorRepo.findAll();
+	public List<Actor> index(String firstName) {
+		List<Actor> actors = null;
+		if (firstName != null) {
+			actors = actorRepo.findByFirstNameStartingWith(firstName);
+		} else {			
+			actors = actorRepo.findAll();
+		}
+		return actors;
 	}
 	
 	@PostMapping ("")
@@ -70,12 +76,4 @@ public class ActorsController {
 		 return actorAward;
 	}	
 	
-	@Query
-	//@GetMapping ("?firstName={firstName}")
-	public Actor findByFirstnameStartingWith (String firstName) {
-		if (!firstName.equals("") || !firstName.equals(null)) {
-			actor = actorRepo.findByFirstNameStartingWith(firstName);
-		}
-		return actor;
-	}
 }
